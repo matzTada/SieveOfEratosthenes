@@ -19,8 +19,13 @@ function draw() {
     nums[i] ? fill(255) : fill(127);
     if (i == currentNum) fill(255, 0, 0);
     else if (floor(i % currentNum) == 0) fill(0, 255, 255);
-    else if (i == ceil(Math.sqrt(MAX_NUM))) fill(0, 255, 0);
+
+    if (i == ceil(Math.sqrt(MAX_NUM))) stroke(0, 255, 0);
+    else if (i < currentNum && nums[i]) stroke(255, 0, 0);
+    else noStroke();
+
     rect(x, y, rectSize, rectSize);
+    
     nums[i] ? fill(0) : fill(255);
     textSize(rectSize * 0.2);
     text(i, x, y + rectSize);
@@ -46,7 +51,7 @@ function sieve(n) {
 function keyTyped() {
   switch (key) {
     case 'a':
-      do {
+      do { // fast forward
         currentNum += 1
       } while (nums[currentNum] === false);
       sieve(currentNum);
@@ -59,6 +64,7 @@ function keyTyped() {
       }
       break;
     case 'R':
+      currentNum = 0;
       resetSieve();
       break;
   }
