@@ -1,72 +1,113 @@
-var MAX_NUM = 5000;
-var rectSize = 10;
-var currentNum = 1;
-var nums = new Array(MAX_NUM); //prepare "box" used as sieve
+var MAX_NUM;
+var currentNum;
+var drawItr;
+var tmpItr;
+var nums;
 
 function setup() {
   createCanvas(1200, 800); // initialize canvas for drawing
-  resetSieve();
+  MAX_NUM = 100;
+  nums = [];
+  nums.push("dead"); //prepare "box" used as sieve
+  for (var i = 1; i <= MAX_NUM; i++) {
+    nums.push("alive"); // "alive" : alive, "dead" : dead(sieved)
+  }
+  nums[1] = "dead";
+  currentNum = 1;
+  // console.log(nums);
+  drawStart();
+  drawCurrent();
 }
 
 function draw() {
-  background(50, 89, 100);
-  for (var i = 0; i < MAX_NUM; i++) {
-    rectSize = width / 100;
-    // var x = floor(i % currentNum) * rectSize;
-    // var y = floor(i / currentNum) * rectSize;
-    var x = floor(i % 100) * rectSize;
-    var y = floor(i / 100) * rectSize;
-    nums[i] ? fill(255) : fill(127);
-    if (i == currentNum) fill(255, 0, 0);
-    else if (floor(i % currentNum) == 0) fill(0, 255, 255);
-
-    if (i == ceil(Math.sqrt(MAX_NUM))) stroke(0, 255, 0);
-    else if (i < currentNum && nums[i]) stroke(255, 0, 0);
-    else noStroke();
-
-    rect(x, y, rectSize, rectSize);
-    
-    nums[i] ? fill(0) : fill(255);
-    textSize(rectSize * 0.2);
-    text(i, x, y + rectSize);
-  }
-}
-
-function resetSieve() {
-  for (var i = 0; i < MAX_NUM; i++) {
-    nums[i] = true; // "true" : alive, "false" : dead(sieved)
-  }
-  nums[0] = false;
-  nums[1] = false;
-}
-
-function sieve(n) {
-  if (nums[n] === true) {
-    for (var j = n * 2; j < MAX_NUM; j += n) {
-      nums[j] = false;
-    }
-  }
 }
 
 function keyTyped() {
   switch (key) {
-    case 'a':
-      do { // fast forward
-        currentNum += 1
-      } while (nums[currentNum] === false);
-      sieve(currentNum);
-      break;
-    case 'A':
-      currentNum -= 1;
-      resetSieve();
-      for (var i = 0; i < currentNum; i++) {
-        sieve(i);
+    case ' ':
+      currentNum += 1;
+      if(currentNum > MAX_NUM){
+        var x = 0;
+        var y = height*9/10;
+        fill(0);
+        textSize(height/10)
+        text("finish", x, y);
       }
-      break;
-    case 'R':
-      currentNum = 0;
-      resetSieve();
+      if (nums[currentNum] === "alive") {
+        tmpItr = currentNum * 2;
+        while(tmpItr <= MAX_NUM){
+          tmpItr += currentNum;
+          nums[tmpItr] = "dead";
+        }
+      }
+      // console.log(nums);
+      drawUpdate();
+      drawCurrent();
       break;
   }
   return false;
+}
+
+function drawStart(){
+  background(250);
+  var x = 0;
+  var y = 0;
+  var rectSize = width / 20;
+  drawItr = 1;
+  while(drawItr <= MAX_NUM){
+    fill(255, 255, 0);
+    rect(x, y, rectSize, rectSize);
+    fill(0);
+    textSize(rectSize * 0.2);
+    text(drawItr, x, y + rectSize);
+    x += rectSize;
+    if(floor(drawItr % 10) == 0){
+      x = 0;
+      y += rectSize;
+    }
+    drawItr += 1;
+  }
+}
+
+function drawUpdate(){
+  var x = 0;
+  var y = 0;
+  var rectSize = width / 20;
+  drawItr = 1;
+  while(drawItr <= MAX_NUM){
+    if(floor(drawItr % currentNum == 0) && drawItr > currentNum){
+      fill(0, 255 ,255);
+      rect(x, y, rectSize, rectSize);
+      fill(0);
+      textSize(rectSize * 0.2);
+      text(drawItr, x, y + rectSize);      
+    }
+    x += rectSize;
+    if(floor(drawItr % 10) == 0){
+      x = 0;
+      y += rectSize;
+    }
+    drawItr += 1;
+  }
+}
+
+function drawCurrent(){
+  var x = 0;
+  var y = 0;
+  var rectSize = width / 20;
+  drawItr = 1;
+  while(drawItr <= currentNum-1){
+    x += rectSize;
+    if(floor(drawItr % 10) == 0){
+      x = 0;
+      y += rectSize;
+    }
+    drawItr += 1;
+  }
+  rectSize = width / 20 / 4;
+  fill(0, 255, 0);
+  rect(x, y, rectSize, rectSize);
+  fill(0);
+  textSize(rectSize * 0.2);
+  text(drawItr, x, y + rectSize);
 }
