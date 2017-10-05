@@ -36,8 +36,8 @@ function keyTyped() {
       if (nums[currentNum] === "alive") {
         tmpItr = currentNum * 2;
         while(tmpItr <= MAX_NUM){
-          tmpItr += currentNum;
           nums[tmpItr] = "dead";
+          tmpItr += currentNum;
         }
       }
       // console.log(nums);
@@ -67,6 +67,11 @@ function drawStart(){
     }
     drawItr += 1;
   }
+  fill(0, 255, 255);
+  rect(0, 0, rectSize, rectSize);
+  fill(0);
+  textSize(rectSize * 0.2);
+  text(1, 0, 0 + rectSize);
 }
 
 function drawUpdate(){
