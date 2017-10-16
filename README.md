@@ -12,7 +12,8 @@ sample is available here
 
 ## Scratch
 The equivalant Scratch program is provided here.  
-<https://scratch.mit.edu/projects/173698090/>  
+Simpler <https://scratch.mit.edu/projects/180027264/>  
+Normal <https://scratch.mit.edu/projects/173698090/>  
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=E4gg36c0Ris
 " target="_blank"><img src="http://img.youtube.com/vi/E4gg36c0Ris/0.jpg" 
