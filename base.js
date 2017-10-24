@@ -2,7 +2,7 @@ var nums;
 
 function setup(){
   size=1200;
-  createCanvas(size, size*MAX_NUM / 200+130); // initialize canvas for drawing
+  createCanvas(size, size*ceil(MAX_NUM/10.0)/20+130); // initialize canvas for drawing
   nums = [];
   //nums.push(""); //prepare "box" used as sieve
   for (var i = 0; i <= MAX_NUM; i++) {
